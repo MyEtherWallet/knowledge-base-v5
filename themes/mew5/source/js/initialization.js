@@ -17,57 +17,32 @@ function selectMobileDesktop() {
 
 (function ($) {
   selectMobileDesktop();
-
 })(jQuery);
 
 
+/*
+  Language select
+*/
 (function ($) {
-  function changeLang () {
-    var lang = this.value;
+  // Remove 'hidden' class that prevents showing language list on load
+  $('.lang-select-box').removeClass('hidden');
+
+  // Change path for selected language
+  $('.lang-select').click(function(){
+    var lang = $(this).data('lang');
+    var currentLang = $(this).data('current-lang');
+    var pagePath = $(this).data('path');
+
+    if(pagePath.startsWith(currentLang)){
+      pagePath = pagePath.slice(3);
+    }
+
     var path = '/';
-    path += lang + '/';
+    path += lang + '/' + pagePath;
     location.href = path;
-  }
-
-  $('#lang-select').change(changeLang);
-  $('#mobile-lang-select').change(changeLang);
-
+  });
 })(jQuery);
 
-(function ($) {
-
-
-  $('#lang-select-label').click(function(){
-    if($('#lang-select').hasClass('hidden') && !$('#lang-select-label').hasClass('hidden')){
-      $('#lang-select').removeClass('hidden');
-      $('#lang-select-label').addClass('hidden');
-    } else {
-      $('#lang-select').addClass('hidden');
-      $('#lang-select-label').removeClass('hidden');
-    }
-  });
-
-  const closeLangSelect = function(){
-    if(!$('#lang-select').hasClass('hidden') && $('#lang-select-label').hasClass('hidden')){
-      $('#lang-select').addClass('hidden');
-      $('#lang-select-label').removeClass('hidden');
-    } else {
-      $('#lang-select').removeClass('hidden');
-      $('#lang-select-label').addClass('hidden');
-    }
-  }
-
-let leaveTimer = null;
-  $('#lang-select').change(closeLangSelect);
-  $('#lang-select').mouseleave(function(){
-    leaveTimer = setTimeout(closeLangSelect, 500);
-  });
-  $('#lang-select').mouseenter(function(){
-     clearTimeout(leaveTimer);
-  });
-
-
-})(jQuery);
 
 (function ($) {
   var closeBanner = getCookie('close-banner');
